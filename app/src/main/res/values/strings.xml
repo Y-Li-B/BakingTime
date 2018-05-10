@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Baking Time</string>
+    <string name="recipe_list_header">Recipes:</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="next_recipe">Next Recipe</string>
+    <string name="ingredients">Ingredients</string>
+</resources>
