@@ -23,22 +23,25 @@ class Recipe implements Parcelable {
 
 
     private String name;
-
     //keeping these as strings for now to allow it to be used with parcel
     private String ingredientsJson;
     private String stepsJson;
+
+    private String imageUrl;
 
 
     private Recipe(Parcel readFrom) {
         this.name = readFrom.readString();
         this.ingredientsJson = readFrom.readString();
         this.stepsJson = readFrom.readString();
+        this.imageUrl = readFrom.readString();
     }
 
-    Recipe(String name, String ingredientsJson, String stepsJson) {
+    Recipe(String name, String ingredientsJson, String stepsJson,String imageUrl) {
         this.name = name;
         this.ingredientsJson = ingredientsJson;
         this.stepsJson = stepsJson;
+        this.imageUrl = imageUrl;
     }
 
     public void setName(String name) {
@@ -57,6 +60,11 @@ class Recipe implements Parcelable {
         return stepsJson;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+
     @Override
     public int describeContents() {
         return 0;
@@ -67,5 +75,7 @@ class Recipe implements Parcelable {
         dest.writeString(name);
         dest.writeString(ingredientsJson);
         dest.writeString(stepsJson);
+        dest.writeString(imageUrl);
     }
+
 }

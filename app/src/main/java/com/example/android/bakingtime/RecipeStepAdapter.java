@@ -1,13 +1,15 @@
 package com.example.android.bakingtime;
 
-import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 class RecipeStepAdapter extends RecyclerView.Adapter<RecipeStepAdapter.CookingStepViewHolder> {
 
@@ -20,7 +22,7 @@ class RecipeStepAdapter extends RecyclerView.Adapter<RecipeStepAdapter.CookingSt
     }
 
     interface OnItemClickListener {
-        void onClick(View v,RecipeStep[] steps,int AdapterPosition);
+        void onClick(View v, RecipeStep[] steps, int AdapterPosition);
     }
 
     @NonNull
@@ -46,22 +48,42 @@ class RecipeStepAdapter extends RecyclerView.Adapter<RecipeStepAdapter.CookingSt
 
 
     class CookingStepViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView itemView;
+        ViewGroup itemView;
+        ImageView imageView;
+        TextView textView;
 
         CookingStepViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
-            this.itemView = (TextView) itemView;
+            this.itemView = (ViewGroup) itemView;
+            imageView = itemView.findViewById(R.id.recipe_IV);
+            textView = itemView.findViewById(R.id.recipe_TV);
         }
 
-        void bind(int position){
-            itemView.setText(steps[position].getShortDescription());
-        }
+        void bind(int position) {
+            RecipeStep step = steps[position];
+            String imageUrl = step.getThumbnailURL();
+            if (!imageUrl.isEmpty()) {
+                Picasso.get().load(imageUrl).into(imageView, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        imageView.setVisibility(View.VISIBLE);
+                    }
 
-        @Override
-        public void onClick(View v) {
-            listener.onClick(v,steps,getAdapterPosition());
+                    @Override
+                    public void onError(Exception e) {
 
+                    }
+                });
+
+                }
+                textView.setText(steps[position].getShortDescription());
+            }
+
+            @Override
+            public void onClick (View v){
+                listener.onClick(v, steps, getAdapterPosition());
+
+            }
         }
     }
-}

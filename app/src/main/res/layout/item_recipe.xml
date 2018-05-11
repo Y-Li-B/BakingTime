@@ -1,7 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/Card"
+<LinearLayout   xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary"
+    android:gravity="center"
     android:elevation="8dp"
+    android:layout_margin="8dp"
+    >
+    <ImageView
+        android:contentDescription="@string/RecipeImageViewDescription"
+        android:id="@+id/recipe_IV"
+        android:layout_height="110dp"
+        android:layout_width="110dp"
+        android:visibility="gone"
+        android:scaleType="fitXY"
+        />
+<TextView
+    android:id="@+id/recipe_TV"
+    style="@style/Card"
     >
 </TextView>
+</LinearLayout>

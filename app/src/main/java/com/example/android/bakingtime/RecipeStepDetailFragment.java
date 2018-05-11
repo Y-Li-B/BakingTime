@@ -34,7 +34,9 @@ public class RecipeStepDetailFragment extends Fragment {
 
     static final String TAG = RecipeStepDetailFragment.class.getSimpleName();
     static final String PLAYER_POSITION_TAG = TAG + "PLAYER_POSITION";
+    static final String PLAY_WHEN_READY_TAG = TAG + "PLAY_WHEN_READY";
 
+    boolean playWhenReady = true;
     private long last_player_position;
     boolean mHasPlayer = true;
     PlayerView mPlayerView;
@@ -58,6 +60,7 @@ public class RecipeStepDetailFragment extends Fragment {
 
         if (savedInstanceState!=null){
             last_player_position = savedInstanceState.getLong(PLAYER_POSITION_TAG);
+            playWhenReady= savedInstanceState.getBoolean(PLAY_WHEN_READY_TAG);
         }
         init(v);
 
@@ -76,6 +79,7 @@ public class RecipeStepDetailFragment extends Fragment {
     public void onPause() {
         super.onPause();
         if (mPlayer!=null){
+            playWhenReady = mPlayer.getPlayWhenReady();
             mPlayer.stop();
             last_player_position = mPlayer.getContentPosition();
             mPlayer.release();
@@ -88,6 +92,7 @@ public class RecipeStepDetailFragment extends Fragment {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putLong(PLAYER_POSITION_TAG, last_player_position);
+        outState.putBoolean(PLAY_WHEN_READY_TAG,playWhenReady);
 
     }
 
@@ -138,9 +143,7 @@ public class RecipeStepDetailFragment extends Fragment {
     }
 
     void populateMediaPlayer( Context context,RecipeStep step) {
-        String videoURL = step.getVideoURL();
-
-        String stringUri  = videoURL.isEmpty()? step.getThumbnailURL() : videoURL ;
+        String stringUri  = step.getVideoURL();
 
         if (stringUri.isEmpty()){
             mHasPlayer=false;
@@ -158,7 +161,7 @@ public class RecipeStepDetailFragment extends Fragment {
 
         mPlayer.seekTo(last_player_position);
 
-        mPlayer.setPlayWhenReady(true);
+        mPlayer.setPlayWhenReady(playWhenReady);
         mPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FILL);
         mPlayerView.setVisibility(View.VISIBLE);
 

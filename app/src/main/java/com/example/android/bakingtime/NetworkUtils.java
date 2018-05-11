@@ -34,7 +34,8 @@ public class NetworkUtils {
         return new Recipe(
                 jsonRecipeObject.optString("name"),
                 jsonRecipeObject.getJSONArray("ingredients").toString(),
-                jsonRecipeObject.getJSONArray("steps").toString()
+                jsonRecipeObject.getJSONArray("steps").toString(),
+                jsonRecipeObject.optString("image")
         );
 
 
@@ -66,7 +67,8 @@ public class NetworkUtils {
             steps[i] = new RecipeStep(obj.getString("shortDescription"),
                     obj.getString("description"),
                     obj.getString("videoURL"),
-                    obj.getString("thumbnailURL"));
+                    obj.getString("thumbnailURL")
+                    );
         }
         return steps;
     }
