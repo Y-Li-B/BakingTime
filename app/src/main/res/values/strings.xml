@@ -6,4 +6,5 @@
     <string name="next_recipe">Next Recipe</string>
     <string name="ingredients">Ingredients</string>
     <string name="RecipeImageViewDescription">Recipe Image</string>
+    <string name="thumbnail_description">Recipe Step thumbnail</string>
 </resources>

@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.exoplayer2.ExoPlayer;
@@ -27,6 +28,7 @@ import com.google.android.exoplayer2.ui.PlayerView;
 
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
+import com.squareup.picasso.Picasso;
 
 
 public class RecipeStepDetailFragment extends Fragment {
@@ -70,7 +72,14 @@ public class RecipeStepDetailFragment extends Fragment {
 
         populateDescription((TextView)v.findViewById(R.id.step_description_TV),
                 step.getDescription());
-        Log.v("VVV","returning view...");
+
+        String thumbURL = step.getThumbnailURL();
+
+        if(!step.getThumbnailURL().isEmpty()) {
+            ImageView thumb = v.findViewById(R.id.thumbnail_IV);
+            Picasso.get().load(thumbURL).into(thumb);
+        }
+
         return v;
     }
 
