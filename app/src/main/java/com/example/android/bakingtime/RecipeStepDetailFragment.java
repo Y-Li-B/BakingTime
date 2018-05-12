@@ -75,6 +75,7 @@ public class RecipeStepDetailFragment extends Fragment {
 
         String thumbURL = step.getThumbnailURL();
 
+
         if(!step.getThumbnailURL().isEmpty()) {
             ImageView thumb = v.findViewById(R.id.thumbnail_IV);
             Picasso.get().load(thumbURL).into(thumb);
