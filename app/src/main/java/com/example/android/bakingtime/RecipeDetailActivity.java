@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.android.bakingtime.model.Recipe;
+
 public class RecipeDetailActivity extends AppCompatActivity {
 
     static final String LAYOUT_TAG = RecipeDetailActivity.class.getSimpleName()+"Layout";

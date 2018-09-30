@@ -2,6 +2,8 @@ package com.example.android.bakingtime;
 
 import android.support.v4.app.FragmentActivity;
 
+import com.example.android.bakingtime.model.Recipe;
+
 import org.json.JSONException;
 
 public class RecipeUtils {

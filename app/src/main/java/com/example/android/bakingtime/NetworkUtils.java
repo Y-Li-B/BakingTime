@@ -2,6 +2,8 @@ package com.example.android.bakingtime;
 
 import android.support.annotation.Nullable;
 
+import com.example.android.bakingtime.model.Recipe;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,7 +54,7 @@ public class NetworkUtils {
         return recipes;
     }
 
-    static Recipe[] getRecipeData() throws IOException, JSONException {
+    public static Recipe[] getRecipeData() throws IOException, JSONException {
         String json = getResponse("https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json");
         JSONArray root = new JSONArray(json);
         return parseRecipeList(root);

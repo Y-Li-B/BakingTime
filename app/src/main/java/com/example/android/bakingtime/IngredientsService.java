@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 
+import com.example.android.bakingtime.model.Recipe;
+
 import org.json.JSONException;
 
 import java.io.IOException;

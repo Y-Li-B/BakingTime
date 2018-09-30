@@ -1,13 +1,13 @@
-package com.example.android.bakingtime;
+package com.example.android.bakingtime.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-class Recipe implements Parcelable {
+public class Recipe implements Parcelable {
 
 
-    static final String TAG = Recipe.class.getSimpleName();
-    static final String RECIPE_WIDGET_POSITION = TAG + "WidgetPosition";
+    public static final String TAG = Recipe.class.getSimpleName();
+    public static final String RECIPE_WIDGET_POSITION = TAG + "WidgetPosition";
 
     public static final Parcelable.Creator<Recipe> CREATOR = new Parcelable.Creator<Recipe>() {
         @Override
@@ -37,7 +37,7 @@ class Recipe implements Parcelable {
         this.imageUrl = readFrom.readString();
     }
 
-    Recipe(String name, String ingredientsJson, String stepsJson,String imageUrl) {
+    public Recipe(String name, String ingredientsJson, String stepsJson,String imageUrl) {
         this.name = name;
         this.ingredientsJson = ingredientsJson;
         this.stepsJson = stepsJson;

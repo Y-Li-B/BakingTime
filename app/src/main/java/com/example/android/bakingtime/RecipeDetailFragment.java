@@ -16,6 +16,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.android.bakingtime.model.Recipe;
+
 public class RecipeDetailFragment extends Fragment {
 
     final static String TAG = RecipeDetailFragment.class.getSimpleName();

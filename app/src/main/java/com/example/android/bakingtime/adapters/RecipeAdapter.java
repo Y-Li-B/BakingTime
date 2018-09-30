@@ -1,4 +1,4 @@
-package com.example.android.bakingtime;
+package com.example.android.bakingtime.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,14 +10,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.android.bakingtime.R;
+import com.example.android.bakingtime.RecipeDetailActivity;
+import com.example.android.bakingtime.model.Recipe;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
+public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
 
     private Recipe[] recipes;
 
-    RecipeAdapter(Recipe[] recipes) {
+    public RecipeAdapter(Recipe[] recipes) {
         this.recipes = recipes;
     }
 
@@ -42,20 +45,18 @@ class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>
         return recipes.length;
     }
 
-    void setRecipeData(Recipe[] recipes) {
+    public void setRecipeData(Recipe[] recipes) {
         this.recipes = recipes;
     }
 
 
     class RecipeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        ViewGroup itemView;
         ImageView imageView;
         TextView textView;
 
         RecipeViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
-            this.itemView =  (ViewGroup) itemView;
             imageView= itemView.findViewById(R.id.recipe_IV);
             textView= itemView.findViewById(R.id.recipe_TV);
         }
