@@ -18,16 +18,16 @@ import android.widget.TextView;
 
 import com.example.android.bakingtime.model.Recipe;
 
-public class RecipeDetailFragment extends Fragment {
+public class CookingStepsFragment extends Fragment {
 
-    final static String TAG = RecipeDetailFragment.class.getSimpleName();
+    final static String TAG = CookingStepsFragment.class.getSimpleName();
     RecyclerView mRecyclerView;
     TextView mIngredientsTextView;
 
-    static RecipeDetailFragment newInstance(boolean isTabletLayout) {
-        RecipeDetailFragment frag = new RecipeDetailFragment();
+    static CookingStepsFragment newInstance(boolean isTabletLayout) {
+        CookingStepsFragment frag = new CookingStepsFragment();
         Bundle args = new Bundle();
-        args.putBoolean(RecipeDetailActivity.LAYOUT_TAG, isTabletLayout);
+        args.putBoolean(CookingStepsActivity.LAYOUT_TAG, isTabletLayout);
         frag.setArguments(args);
         return frag;
     }
@@ -35,13 +35,12 @@ public class RecipeDetailFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View fragmentView = inflater.inflate(R.layout.fragment_recipe_detail, container, false);
+        View fragmentView = inflater.inflate(R.layout.fragment_cooking_steps, container, false);
         mRecyclerView = fragmentView.findViewById(R.id.recipe_details_RV);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setHasFixedSize(true);
         mIngredientsTextView = fragmentView.findViewById(R.id.ingredients_TV);
         Recipe recipe = RecipeUtils.getRecipe(getActivity());
-
         populate(recipe);
 
         return fragmentView;
@@ -54,10 +53,10 @@ public class RecipeDetailFragment extends Fragment {
             if (steps != null) {
                 Bundle args = this.getArguments();
                 if (args != null) {
-                    if (args.getBoolean(RecipeDetailActivity.LAYOUT_TAG, false))
-                        mRecyclerView.setAdapter(new RecipeStepAdapter(steps, new TabletClickListener()));
+                    if (args.getBoolean(CookingStepsActivity.LAYOUT_TAG, false))
+                        mRecyclerView.setAdapter(new CookingStepAdapter(steps, new TabletClickListener()));
                     else
-                        mRecyclerView.setAdapter(new RecipeStepAdapter(steps, new PhoneClickListener()));
+                        mRecyclerView.setAdapter(new CookingStepAdapter(steps, new PhoneClickListener()));
                 }
             }
             if (ingredients != null) {
@@ -74,7 +73,7 @@ public class RecipeDetailFragment extends Fragment {
     }
 
 
-    class PhoneClickListener implements RecipeStepAdapter.OnItemClickListener {
+    class PhoneClickListener implements CookingStepAdapter.OnItemClickListener {
         @Override
         public void onClick(View v, RecipeStep[] steps, int AdapterPosition) {
             Context context = v.getContext();
@@ -85,7 +84,7 @@ public class RecipeDetailFragment extends Fragment {
         }
     }
 
-    class TabletClickListener implements RecipeStepAdapter.OnItemClickListener {
+    class TabletClickListener implements CookingStepAdapter.OnItemClickListener {
         @Override
         public void onClick(View v, RecipeStep[] steps, int AdapterPosition) {
             FragmentManager manager = getFragmentManager();

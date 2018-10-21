@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +15,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.android.bakingtime.model.CookingStep;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 
@@ -31,10 +31,10 @@ import com.google.android.exoplayer2.util.Util;
 import com.squareup.picasso.Picasso;
 
 
-public class RecipeStepDetailFragment extends Fragment {
+public class CookingStepDetailsFragment extends Fragment {
 
 
-    static final String TAG = RecipeStepDetailFragment.class.getSimpleName();
+    public static final String TAG = CookingStepDetailsFragment.class.getSimpleName();
     static final String PLAYER_POSITION_TAG = TAG + "PLAYER_POSITION";
     static final String PLAY_WHEN_READY_TAG = TAG + "PLAY_WHEN_READY";
 
@@ -46,11 +46,11 @@ public class RecipeStepDetailFragment extends Fragment {
     Parcelable[] steps;
     int position;
 
-    static RecipeStepDetailFragment newInstance(Parcelable[] steps,int position){
-        RecipeStepDetailFragment frag = new RecipeStepDetailFragment();
+    public static CookingStepDetailsFragment newInstance(Parcelable[] steps, int position){
+        CookingStepDetailsFragment frag = new CookingStepDetailsFragment();
         Bundle bundle = new Bundle();
-        bundle.putParcelableArray(RecipeStep.TAG,steps);
-        bundle.putInt(RecipeStep.POSITION_TAG,position);
+        bundle.putParcelableArray(CookingStep.TAG,steps);
+        bundle.putInt(CookingStep.POSITION_TAG,position);
         bundle.putLong(PLAYER_POSITION_TAG,0);
         frag.setArguments(bundle);
         return frag;
@@ -68,7 +68,7 @@ public class RecipeStepDetailFragment extends Fragment {
 
         mPlayerView = v.findViewById(R.id.exo_PV);
 
-        RecipeStep step = (RecipeStep) steps[position];
+        CookingStep step = (CookingStep) steps[position];
 
         populateDescription((TextView)v.findViewById(R.id.step_description_TV),
                 step.getDescription());
@@ -111,15 +111,15 @@ public class RecipeStepDetailFragment extends Fragment {
         super.onResume();
         if( mHasPlayer && mPlayer==null ) {
             populateMediaPlayer(
-                    getContext(), (RecipeStep) steps[position]);
+                    getContext(), (CookingStep) steps[position]);
         }
     }
 
     void init(View v) {
         Bundle args = getArguments();
         if(args!=null) {
-            steps = args.getParcelableArray(RecipeStep.TAG);
-            position = args.getInt(RecipeStep.POSITION_TAG);
+            steps = args.getParcelableArray(CookingStep.TAG);
+            position = args.getInt(CookingStep.POSITION_TAG);
         }
 
         if(position!=steps.length-1) {
@@ -152,7 +152,7 @@ public class RecipeStepDetailFragment extends Fragment {
 
     }
 
-    void populateMediaPlayer( Context context,RecipeStep step) {
+    void populateMediaPlayer( Context context,CookingStep step) {
         String stringUri  = step.getVideoURL();
 
         if (stringUri.isEmpty()){
@@ -188,8 +188,8 @@ public class RecipeStepDetailFragment extends Fragment {
         if (activity!=null){
             activity.getSupportFragmentManager().beginTransaction()
                     .replace(R.id.container_recipe_step_details_fragment,
-                            RecipeStepDetailFragment.newInstance(steps,position),
-                    RecipeStepDetailFragment.TAG)
+                            CookingStepDetailsFragment.newInstance(steps,position),
+                    CookingStepDetailsFragment.TAG)
                     .commit();
         }
     }

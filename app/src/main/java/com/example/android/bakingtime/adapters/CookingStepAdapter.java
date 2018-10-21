@@ -8,21 +8,21 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Callback;
+import com.example.android.bakingtime.model.CookingStep;
 import com.squareup.picasso.Picasso;
 
-class RecipeStepAdapter extends RecyclerView.Adapter<RecipeStepAdapter.CookingStepViewHolder> {
+public class CookingStepAdapter extends RecyclerView.Adapter<CookingStepAdapter.CookingStepViewHolder> {
 
-    private RecipeStep[] steps;
+    private CookingStep[] steps;
     private OnItemClickListener listener;
 
-    RecipeStepAdapter(RecipeStep[] steps, OnItemClickListener listener) {
+    public CookingStepAdapter(CookingStep[] steps, OnItemClickListener listener) {
         this.listener = listener;
         this.steps = steps;
     }
 
-    interface OnItemClickListener {
-        void onClick(View v, RecipeStep[] steps, int AdapterPosition);
+    public interface OnItemClickListener {
+        void onClick(View v, CookingStep[] steps, int AdapterPosition);
     }
 
     @NonNull
@@ -61,20 +61,10 @@ class RecipeStepAdapter extends RecyclerView.Adapter<RecipeStepAdapter.CookingSt
         }
 
         void bind(int position) {
-            RecipeStep step = steps[position];
+            CookingStep step = steps[position];
             String imageUrl = step.getThumbnailURL();
             if (!imageUrl.isEmpty()) {
-                Picasso.get().load(imageUrl).into(imageView, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        imageView.setVisibility(View.VISIBLE);
-                    }
-
-                    @Override
-                    public void onError(Exception e) {
-
-                    }
-                });
+                Picasso.get().load(imageUrl).placeholder(R.drawable.cooking_step_placeholder).into(imageView);
 
                 }
                 textView.setText(steps[position].getShortDescription());

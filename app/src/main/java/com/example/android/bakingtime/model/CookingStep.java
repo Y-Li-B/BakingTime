@@ -3,37 +3,37 @@ package com.example.android.bakingtime;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class RecipeStep implements Parcelable {
+public class CookingStep implements Parcelable {
 
-    public static final Parcelable.Creator<RecipeStep> CREATOR = new Parcelable.Creator<RecipeStep>(){
+    public static final Parcelable.Creator<CookingStep> CREATOR = new Parcelable.Creator<CookingStep>(){
 
         @Override
-        public RecipeStep createFromParcel(Parcel source) {
-            return new RecipeStep(source);
+        public CookingStep createFromParcel(Parcel source) {
+            return new CookingStep(source);
         }
 
         @Override
-        public RecipeStep[] newArray(int size) {
-            return new RecipeStep[size];
+        public CookingStep[] newArray(int size) {
+            return new CookingStep[size];
         }
     };
 
 
-    final static String TAG = RecipeStep.class.getSimpleName();
-    final static String POSITION_TAG = RecipeStep.TAG + TAG;
+    final static String TAG = CookingStep.class.getSimpleName();
+    final static String POSITION_TAG = CookingStep.TAG + TAG;
 
     private String shortDescription;
     private String description;
     private String videoURL;
     private String thumbnailURL;
 
-    private RecipeStep(Parcel source){
+    private CookingStep(Parcel source){
         shortDescription = source.readString();
         description = source.readString();
         videoURL = source.readString();
         thumbnailURL = source.readString();
     }
-    RecipeStep(String shortDescription, String description, String videoURL, String thumbnailURL) {
+   public CookingStep(String shortDescription, String description, String videoURL, String thumbnailURL) {
         this.shortDescription = shortDescription;
         this.description = description;
         this.videoURL = videoURL;
