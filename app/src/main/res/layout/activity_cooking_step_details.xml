@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".CookingStepDetailsActivity">
 <FrameLayout
-    android:id="@+id/container_recipe_step_details_fragment"
+    android:id="@+id/container_cooking_step_details_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"/>
 </android.support.constraint.ConstraintLayout>

@@ -1,4 +1,4 @@
-package com.example.android.bakingtime;
+package com.example.android.bakingtime.fragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.android.bakingtime.R;
 import com.example.android.bakingtime.model.CookingStep;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.ExoPlayerFactory;
@@ -33,18 +34,20 @@ import com.squareup.picasso.Picasso;
 
 public class CookingStepDetailsFragment extends Fragment {
 
-
     public static final String TAG = CookingStepDetailsFragment.class.getSimpleName();
+
     static final String PLAYER_POSITION_TAG = TAG + "PLAYER_POSITION";
     static final String PLAY_WHEN_READY_TAG = TAG + "PLAY_WHEN_READY";
 
     boolean playWhenReady = true;
     private long last_player_position;
-    boolean mHasPlayer = true;
+
+    boolean hasPlayer = true;
     PlayerView mPlayerView;
     ExoPlayer mPlayer;
-    Parcelable[] steps;
-    int position;
+
+    Parcelable[] cookingSteps;
+    int cookingStepPosition;
 
     public static CookingStepDetailsFragment newInstance(Parcelable[] steps, int position){
         CookingStepDetailsFragment frag = new CookingStepDetailsFragment();
@@ -58,24 +61,32 @@ public class CookingStepDetailsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_recipe_step_detail, container, false);
+        View v = inflater.inflate(R.layout.fragment_cooking_step_details, container, false);
 
+        cookingSteps = getArguments().getParcelableArray(CookingStep.TAG);
+        cookingStepPosition = getArguments().getInt(CookingStep.POSITION_TAG);
+
+        //If we already have a saved state, then restore the player at the old cookingStepPosition
+        //and play the video when as soon it's ready to be played.
         if (savedInstanceState!=null){
             last_player_position = savedInstanceState.getLong(PLAYER_POSITION_TAG);
             playWhenReady= savedInstanceState.getBoolean(PLAY_WHEN_READY_TAG);
         }
-        init(v);
+
+        //initialize the bar used to navigate between cookingSteps.
+        initNavBar(v);
 
         mPlayerView = v.findViewById(R.id.exo_PV);
 
-        CookingStep step = (CookingStep) steps[position];
+
+        CookingStep step = (CookingStep) cookingSteps[cookingStepPosition];
 
         populateDescription((TextView)v.findViewById(R.id.step_description_TV),
                 step.getDescription());
 
         String thumbURL = step.getThumbnailURL();
 
-
+        //load the thumbnail if the url isn't empty.
         if(!step.getThumbnailURL().isEmpty()) {
             ImageView thumb = v.findViewById(R.id.thumbnail_IV);
             Picasso.get().load(thumbURL).into(thumb);
@@ -109,39 +120,35 @@ public class CookingStepDetailsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if( mHasPlayer && mPlayer==null ) {
+        if( hasPlayer && mPlayer==null ) {
             populateMediaPlayer(
-                    getContext(), (CookingStep) steps[position]);
+                    getContext(), (CookingStep) cookingSteps[cookingStepPosition]);
         }
     }
 
-    void init(View v) {
-        Bundle args = getArguments();
-        if(args!=null) {
-            steps = args.getParcelableArray(CookingStep.TAG);
-            position = args.getInt(CookingStep.POSITION_TAG);
-        }
-
-        if(position!=steps.length-1) {
-            Button b = v.findViewById(R.id.next_step_button);
+    void initNavBar(View buttonsContainer) {
+        if(cookingStepPosition != cookingSteps.length-1) {
+            Button b = buttonsContainer.findViewById(R.id.next_step_button);
             if (b!=null) {
                 b.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        goToStep(position + 1);
+                        goToStep(cookingStepPosition + 1);
                     }
                 });
                 b.setVisibility(View.VISIBLE);
             }
         }
 
-        if(position!=0) {
-            Button b = v.findViewById(R.id.previous_step_button);
+        //If we are not at the first cookingStepPosition,
+        //then find the previous button and set its click listener and visibility.
+        if(cookingStepPosition !=0) {
+            Button b = buttonsContainer.findViewById(R.id.previous_step_button);
             if (b!=null) {
                 b.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        goToStep(position - 1);
+                        goToStep(cookingStepPosition - 1);
                     }
                 });
                 b.setVisibility(View.VISIBLE);
@@ -156,7 +163,7 @@ public class CookingStepDetailsFragment extends Fragment {
         String stringUri  = step.getVideoURL();
 
         if (stringUri.isEmpty()){
-            mHasPlayer=false;
+            hasPlayer =false;
             return;
         }
 
@@ -187,8 +194,8 @@ public class CookingStepDetailsFragment extends Fragment {
         FragmentActivity activity = getActivity();
         if (activity!=null){
             activity.getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container_recipe_step_details_fragment,
-                            CookingStepDetailsFragment.newInstance(steps,position),
+                    .replace(R.id.container_cooking_step_details_fragment,
+                            CookingStepDetailsFragment.newInstance(cookingSteps,position),
                     CookingStepDetailsFragment.TAG)
                     .commit();
         }

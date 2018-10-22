@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     tools:context=".MainActivity"
-    android:id="@+id/container_recipe_details_fragment">
+    android:id="@+id/container_cooking_steps_fragment">
 
 
 </FrameLayout>

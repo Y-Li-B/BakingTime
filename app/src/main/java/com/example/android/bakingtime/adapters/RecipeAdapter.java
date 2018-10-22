@@ -3,6 +3,7 @@ package com.example.android.bakingtime.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.bakingtime.R;
-import com.example.android.bakingtime.RecipeDetailActivity;
+import com.example.android.bakingtime.CookingStepsActivity;
 import com.example.android.bakingtime.model.Recipe;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
@@ -58,24 +58,15 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
             super(itemView);
             itemView.setOnClickListener(this);
             imageView= itemView.findViewById(R.id.recipe_IV);
+            imageView.setImageDrawable(ContextCompat.getDrawable(itemView.getContext(),R.drawable.food_placeholder));
             textView= itemView.findViewById(R.id.recipe_TV);
         }
 
         void bind(int position){
             Recipe recipe = recipes[position];
-            String imageUrl = recipe.getImageUrl();
+            final String imageUrl = recipe.getImageUrl();
             if(!imageUrl.isEmpty()) {
-                Picasso.get().load(imageUrl).into(imageView, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        imageView.setVisibility(View.VISIBLE);
-                    }
-
-                    @Override
-                    public void onError(Exception e) {
-
-                    }
-                });
+                Picasso.get().load(imageUrl).placeholder(R.drawable.food_placeholder).into(imageView);
             }
             textView.setText(recipe.getName());
         }
@@ -83,7 +74,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         @Override
         public void onClick(View v) {
             Context context = v.getContext();
-            Intent intent = new Intent(context,RecipeDetailActivity.class);
+            Intent intent = new Intent(context,CookingStepsActivity.class);
             intent.putExtra(Recipe.TAG,recipes[getAdapterPosition()]);
             context.startActivity(intent);
         }

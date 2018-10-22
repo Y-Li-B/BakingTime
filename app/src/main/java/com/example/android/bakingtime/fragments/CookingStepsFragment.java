@@ -1,4 +1,4 @@
-package com.example.android.bakingtime;
+package com.example.android.bakingtime.fragments;
 
 
 import android.content.Context;
@@ -10,24 +10,31 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
+import com.example.android.bakingtime.adapters.CookingStepAdapter;
+import com.example.android.bakingtime.R;
+import com.example.android.bakingtime.model.CookingStep;
+import com.example.android.bakingtime.CookingStepDetailsActivity;
 import com.example.android.bakingtime.model.Recipe;
 
 public class CookingStepsFragment extends Fragment {
 
-    final static String TAG = CookingStepsFragment.class.getSimpleName();
-    RecyclerView mRecyclerView;
-    TextView mIngredientsTextView;
+    //Will be used when adding this fragment through the fragment manager.
+    public final static String TAG = CookingStepsFragment.class.getSimpleName();
 
-    static CookingStepsFragment newInstance(boolean isTabletLayout) {
+    //Used to hold of a boolean value of the requested layout orientation.
+    final static String IS_TABLET_TAG = "is_tablet";
+
+    //Recycler View to display cooking cookingSteps.
+    RecyclerView mRecyclerView;
+
+   public static CookingStepsFragment newInstance(boolean isTabletLayout) {
         CookingStepsFragment frag = new CookingStepsFragment();
         Bundle args = new Bundle();
-        args.putBoolean(CookingStepsActivity.LAYOUT_TAG, isTabletLayout);
+        args.putBoolean(IS_TABLET_TAG, isTabletLayout);
         frag.setArguments(args);
         return frag;
     }
@@ -39,60 +46,49 @@ public class CookingStepsFragment extends Fragment {
         mRecyclerView = fragmentView.findViewById(R.id.recipe_details_RV);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setHasFixedSize(true);
-        mIngredientsTextView = fragmentView.findViewById(R.id.ingredients_TV);
-        Recipe recipe = RecipeUtils.getRecipe(getActivity());
-        populate(recipe);
+        Recipe recipe = Recipe.getRecipe(getActivity());
+
+        boolean isTabletLayout = getArguments().getBoolean(IS_TABLET_TAG);
+
+        mRecyclerView.setAdapter(makeOrientedAdapter(recipe.getCookingSteps(),isTabletLayout));
 
         return fragmentView;
     }
 
-    void populate(final Recipe recipe) {
-        if (recipe != null) {
-            RecipeStep[] steps = RecipeUtils.getCookingSteps(recipe);
-            final String ingredients = RecipeUtils.getIngredients(recipe);
-            if (steps != null) {
-                Bundle args = this.getArguments();
-                if (args != null) {
-                    if (args.getBoolean(CookingStepsActivity.LAYOUT_TAG, false))
-                        mRecyclerView.setAdapter(new CookingStepAdapter(steps, new TabletClickListener()));
-                    else
-                        mRecyclerView.setAdapter(new CookingStepAdapter(steps, new PhoneClickListener()));
-                }
-            }
-            if (ingredients != null) {
-                Log.v("VVV","clicked");
-                mIngredientsTextView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        IngredientsDialogFragment.newInstance(ingredients).show(getFragmentManager(),null);
-                    }
-                });
-            }
 
-        }
+    //Constructs a suitable adapter based on the orientation.
+    CookingStepAdapter makeOrientedAdapter(CookingStep[] cookingSteps, boolean isTabletLayout) {
+        CookingStepAdapter.OnItemClickListener listener = isTabletLayout ?
+                new TabletClickListener() : new PhoneClickListener();
+
+        return new CookingStepAdapter(cookingSteps, listener);
+
     }
 
 
+    //Starts a new activity, while passing the cookingSteps and the cookingStepPosition of the clicked one as extras.
     class PhoneClickListener implements CookingStepAdapter.OnItemClickListener {
         @Override
-        public void onClick(View v, RecipeStep[] steps, int AdapterPosition) {
+        public void onClick(View v, CookingStep[] steps, int AdapterPosition) {
             Context context = v.getContext();
-            Intent intent = new Intent(context, RecipeStepDetailActivity.class);
-            intent.putExtra(RecipeStep.TAG, steps);
-            intent.putExtra(RecipeStep.POSITION_TAG, AdapterPosition);
+            Intent intent = new Intent(context, CookingStepDetailsActivity.class);
+            intent.putExtra(CookingStep.TAG, steps);
+            intent.putExtra(CookingStep.POSITION_TAG, AdapterPosition);
+            intent.putExtra(Recipe.NAME_TAG,getActivity().getTitle());
             context.startActivity(intent);
         }
     }
 
+    //Replaces the cookingStepDetail fragment, while passing the cookingSteps and the cookingStepPosition of the clicked one.
     class TabletClickListener implements CookingStepAdapter.OnItemClickListener {
         @Override
-        public void onClick(View v, RecipeStep[] steps, int AdapterPosition) {
+        public void onClick(View v, CookingStep[] steps, int AdapterPosition) {
             FragmentManager manager = getFragmentManager();
             if (manager != null) {
                 manager.beginTransaction()
-                        .replace(R.id.container_recipe_step_details_fragment,
-                                RecipeStepDetailFragment.newInstance(steps, AdapterPosition),
-                                RecipeStepDetailFragment.TAG).commit();
+                        .replace(R.id.container_cooking_step_details_fragment,
+                                CookingStepDetailsFragment.newInstance(steps, AdapterPosition),
+                                CookingStepDetailsFragment.TAG).commit();
             }
         }
     }

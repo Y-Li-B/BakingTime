@@ -1,4 +1,4 @@
-package com.example.android.bakingtime.frags;
+package com.example.android.bakingtime.fragments;
 
 
 import android.os.AsyncTask;
@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.android.bakingtime.NetworkUtils;
+import com.example.android.bakingtime.util.NetworkUtils;
 import com.example.android.bakingtime.R;
 import com.example.android.bakingtime.model.Recipe;
 import com.example.android.bakingtime.adapters.RecipeAdapter;
@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.lang.ref.WeakReference;
 
 public class MainFragment extends Fragment {
+
 
     private Recipe[] dataSet;
 
@@ -54,6 +55,7 @@ public class MainFragment extends Fragment {
             new FetchRecipesTask(this).execute();
             //Else just reload existing data.
         } else {
+            //get old data from saveInstanceState bundle and send it to the display.
             dataSet = (Recipe[]) savedInstanceState.getParcelableArray(Recipe.TAG);
             sendDataToDisplay();
         }
@@ -94,7 +96,7 @@ public class MainFragment extends Fragment {
     //Hides the progress bar,Sets text of error msg TV, and show's it.
     //not orthogonal, consider redesigning
     void stopWithErrorMessage(String msg){
-        mProgressBar.setVisibility(View.GONE);
+        mProgressBar.setVisibility(View.INVISIBLE);
         mErrorMsgTextView.setText(msg);
         mErrorMsgTextView.setVisibility(View.VISIBLE);
     }
@@ -117,10 +119,11 @@ public class MainFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            Log.v("VVVV","REQUESTING NEW DATA");
             MainFragment frag = this.callerFragment.get();
-            //Hide the recycler view when loading which will show the progress bar behind it.
             frag.mRecyclerView.setVisibility(View.INVISIBLE);
-            frag.mErrorMsgTextView.setVisibility(View.GONE);
+            frag.mErrorMsgTextView.setVisibility(View.INVISIBLE);
+            frag.mProgressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -128,7 +131,7 @@ public class MainFragment extends Fragment {
             Recipe[] recipes = null;
             //Try to get recipe data...
             try {
-                recipes = NetworkUtils.getRecipeData();
+                recipes = NetworkUtils.getRecipesFromURL(NetworkUtils.RECIPES_URL);
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }

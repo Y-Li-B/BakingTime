@@ -10,8 +10,8 @@
         android:textColor="@color/colorText"
         android:padding="16dp"
         android:textSize="18sp"
-        android:layout_height="180dp"
-        android:layout_width="180dp"
+        android:layout_height="240dp"
+        android:layout_width="240dp"
         android:id="@+id/dialog_ingredients_TV"/>
 </ScrollView>
 </FrameLayout>

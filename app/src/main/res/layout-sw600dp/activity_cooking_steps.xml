@@ -12,11 +12,11 @@
         android:layout_height="match_parent"
         android:layout_width="0dp"
         android:layout_weight="1"
-        android:id="@+id/container_recipe_details_fragment"/>
+        android:id="@+id/container_cooking_steps_fragment"/>
     <FrameLayout
         android:layout_height="match_parent"
         android:layout_width="0dp"
         android:layout_weight="2"
-        android:id="@+id/container_recipe_step_details_fragment"/>
+        android:id="@+id/container_cooking_step_details_fragment"/>
 
 </LinearLayout>

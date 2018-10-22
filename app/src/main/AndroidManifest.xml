@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <receiver android:name=".WidgetProvider">
+        <receiver android:name=".widget.WidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
@@ -20,15 +20,19 @@
                 android:resource="@xml/widget_provider">
             </meta-data>
         </receiver>
-        <service android:name=".IngredientsService"/>
-        <activity android:name=".MainActivity">
+        <service android:name=".widget.WidgetJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
+
+        <activity android:name=".MainActivity"
+            android:launchMode="singleTop"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RecipeDetailActivity"
+        <activity android:name=".CookingStepsActivity"
             android:launchMode="singleTop"
             android:parentActivityName=".MainActivity"
             >
@@ -36,12 +40,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity"/>
         </activity>
-        <activity android:name=".RecipeStepDetailActivity"
+        <activity android:name=".CookingStepDetailsActivity"
             android:launchMode="singleTop"
-            android:parentActivityName=".RecipeDetailActivity">
+            android:parentActivityName=".CookingStepsActivity">
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
-            android:value=".MainActivity"/>
+            android:value=".CookingStepsActivity"/>
         </activity>
 
     </application>

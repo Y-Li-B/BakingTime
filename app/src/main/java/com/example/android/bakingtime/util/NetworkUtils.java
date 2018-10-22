@@ -1,4 +1,4 @@
-package com.example.android.bakingtime;
+package com.example.android.bakingtime.util;
 
 import android.support.annotation.Nullable;
 

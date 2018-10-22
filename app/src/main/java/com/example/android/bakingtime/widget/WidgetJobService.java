@@ -1,4 +1,4 @@
-package com.example.android.bakingtime.widgets;
+package com.example.android.bakingtime.widget;
 
 
 import android.appwidget.AppWidgetManager;
@@ -9,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.JobIntentService;
 import android.util.Log;
 
-import com.example.android.bakingtime.R;
 import com.example.android.bakingtime.model.Recipe;
 import com.example.android.bakingtime.util.NetworkUtils;
 
@@ -27,7 +26,6 @@ public class WidgetJobService extends JobIntentService {
 
     @Override
     protected void onHandleWork(@Nullable Intent intent) {
-        Log.v("VVVV","HANDLING WORK");
         if (intent != null) {
             String action = intent.getAction();
             if (action != null && action.equals(ACTION_UPDATE_WIDGET)) {
@@ -47,7 +45,7 @@ public class WidgetJobService extends JobIntentService {
         else{
             ingredients = "Network error...";
         }
-        WidgetProvider.populateWidget(this, widgetID, ingredients);
+        WidgetProvider.completeUpdate(this, widgetID, ingredients);
 
     }
 

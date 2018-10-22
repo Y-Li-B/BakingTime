@@ -30,7 +30,7 @@ public class ItemClickTest {
         Espresso.onView(ViewMatchers.withId(R.id.recipe_list_RV)).perform(
                 RecyclerViewActions.actionOnItemAtPosition(2, ViewActions.click()));
 
-        Intents.intended(IntentMatchers.hasComponent(RecipeDetailActivity.class.getName()));
+        Intents.intended(IntentMatchers.hasComponent(CookingStepsActivity.class.getName()));
 
     }
 

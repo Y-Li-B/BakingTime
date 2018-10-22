@@ -3,7 +3,7 @@ package com.example.android.bakingtime;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.example.android.bakingtime.frags.MainFragment;
+import com.example.android.bakingtime.fragments.MainFragment;
 
 
 public class MainActivity extends AppCompatActivity {

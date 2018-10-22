@@ -1,4 +1,4 @@
-package com.example.android.bakingtime;
+package com.example.android.bakingtime.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -19,8 +19,8 @@ public class CookingStep implements Parcelable {
     };
 
 
-    final static String TAG = CookingStep.class.getSimpleName();
-    final static String POSITION_TAG = CookingStep.TAG + TAG;
+    public final static String TAG = CookingStep.class.getSimpleName();
+    public final static String POSITION_TAG = CookingStep.TAG + "_position";
 
     private String shortDescription;
     private String description;
@@ -33,7 +33,7 @@ public class CookingStep implements Parcelable {
         videoURL = source.readString();
         thumbnailURL = source.readString();
     }
-   public CookingStep(String shortDescription, String description, String videoURL, String thumbnailURL) {
+    CookingStep(String shortDescription, String description, String videoURL, String thumbnailURL) {
         this.shortDescription = shortDescription;
         this.description = description;
         this.videoURL = videoURL;

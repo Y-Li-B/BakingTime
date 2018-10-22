@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".frags.MainFragment"
+    tools:context=".fragments.MainFragment"
     android:background="@color/colorPrimaryDark"
     >
 
@@ -13,6 +13,8 @@
         android:layout_width="wrap_content"
         android:layout_gravity="center"
         android:textColor="@color/colorText"
+        android:visibility="invisible"
+
         />
 
     <ProgressBar
@@ -20,6 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:visibility="invisible"
         />
 
 

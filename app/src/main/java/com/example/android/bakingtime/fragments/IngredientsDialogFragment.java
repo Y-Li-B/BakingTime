@@ -1,4 +1,4 @@
-package com.example.android.bakingtime;
+package com.example.android.bakingtime.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,12 +9,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.android.bakingtime.R;
+import com.example.android.bakingtime.model.Recipe;
+
+
+//This fragment will show the user the ingredients of the recipe.
 public class IngredientsDialogFragment extends DialogFragment {
-    static final String INGREGIENTS_TAG = "ingredients";
-    static IngredientsDialogFragment newInstance(String ingredients){
+
+    public static final String  TAG = IngredientsDialogFragment.class.getSimpleName();
+
+
+    public static IngredientsDialogFragment newInstance(String ingredients){
         IngredientsDialogFragment frag = new IngredientsDialogFragment();
         Bundle args = new Bundle();
-        args.putString(INGREGIENTS_TAG,ingredients);
+        args.putString(Recipe.INGREDIENTS_TAG,ingredients);
         frag.setArguments(args);
         return frag;
     }
@@ -22,9 +30,9 @@ public class IngredientsDialogFragment extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.dialog_fragment_ingredients,container,false);
+        View v = inflater.inflate(R.layout.fragment_ingredients,container,false);
         TextView ingredientsTextView = v.findViewById(R.id.dialog_ingredients_TV);
-        ingredientsTextView.setText(getArguments().getString(INGREGIENTS_TAG));
+        ingredientsTextView.setText(getArguments().getString(Recipe.INGREDIENTS_TAG));
         return v;
     }
 }
