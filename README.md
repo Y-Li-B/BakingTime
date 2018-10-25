@@ -4,19 +4,15 @@ This is the third project for the Udacity Android Nanodegree.
 
 
 ## Screenshots:
-# Baking Time
-
-This is the third project for the Udacity Android Nanodegree.
-
-
-## Screenshots:
 
 ### Phone:
+
   <img src="https://i.imgur.com/5Aoqeue.png" width="180" height="320" hspace="50"><img src="https://i.imgur.com/oXB5o5H.png" width="180" height="320" hspace="50"><img src="https://i.imgur.com/BxKgG5n.png" width="180" height="320">
   
   <img src="https://i.imgur.com/BMftGVx.png" width="180" height="320" hspace="50"><img src="https://i.imgur.com/SCCZHFN.png" width="180" height="320" hspace="50"><img src="https://i.imgur.com/tUUrvNs.png" width="320" height="180" > 
 
 ### Tablet:
+
   <img src="https://i.imgur.com/BMftGVx.png" width="640" height="480">
 
   
